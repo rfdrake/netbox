@@ -8,6 +8,9 @@ from extras.models import UserAction
 from ipam.models import Aggregate, Prefix, IPAddress, VLAN, VRF
 from secrets.models import Secret
 from tenancy.models import Tenant
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework import response, schemas
+from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
 def home(request):
@@ -45,6 +48,13 @@ def home(request):
         'stats': stats,
         'recent_activity': UserAction.objects.select_related('user')[:50]
     })
+
+@api_view()
+@renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
+def api_docs(request):
+    generator = schemas.SchemaGenerator(title='NetBox API')
+    return response.Response(generator.get_schema(request=request))
+
 
 
 def trigger_500(request):

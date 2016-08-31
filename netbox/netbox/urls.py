@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.defaults import page_not_found
 
-from views import home, trigger_500, handle_500
+from views import home, trigger_500, handle_500, api_docs
 from users.views import login, logout
 
 
@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^api/ipam/', include('ipam.api.urls', namespace='ipam-api')),
     url(r'^api/secrets/', include('secrets.api.urls', namespace='secrets-api')),
     url(r'^api/tenancy/', include('tenancy.api.urls', namespace='tenancy-api')),
-    url(r'^api/docs/', include('rest_framework_swagger.urls')),
+    url(r'^api/docs/', api_docs),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # Error testing
